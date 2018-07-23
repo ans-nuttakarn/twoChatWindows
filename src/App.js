@@ -1,81 +1,41 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-
-// Components
 import ChatWindow from './ChatWindow';
 
-const users = [
-  { username: "Amy" },
-  { username: "John" }
-];
+const users = [{ username: 'Amy' }, { username: 'Jon' }];
 
 class App extends Component {
-  /*const messages = [
-  { username: 'Amy', text: 'Hi, Jon!' },
-  { username: 'Amy', text: 'How are you?' },
-  { username: 'John', text: 'Hi, Amy! Good, you?' },
-];*/
   state = {
-    messages: []
+    messages: [], //will hold this --> {usermame: 'Amy', text: 'a'}
   };
-
-  isDisabled = () => {
-    return false;
+  onMessage = (username, message) => {
+    const newMessage = {
+      ['username']: username,
+      ['text']: message,
+    };
+    this.setState(currState => ({
+      messages: currState.messages.concat([newMessage]),
+    }));
   };
-
   render() {
+    const { messages } = this.state;
+
     return (
       <div className="App">
-
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h1 className="App-title">ReactND - Coding Practice</h1>
+        </header>
         <div className="container">
-
-          {users.map((user) => (
+          {users.map(user => (
             <ChatWindow
               key={user.username}
               user={user}
-              messages={this.state.messages}
+              messages={messages}
+              onMessage={this.onMessage}
             />
           ))}
-
-          {/*--------------------------- Amy window ------------------------*/}
-          <div className="chat-window">
-
-
-            {/*--------------------------- message box ------------------------*/}
-
-            {/*--------------------------- input's amy ------------------------*/}
-            <div>
-              <form className="input-group">
-                <input type="text" className="form-control" placeholder="Enter your message..." />
-                <div className="input-group-append">
-                  <button className="btn submit-button" disabled={this.isDisabled()}>
-                    SEND
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-
-          {/*--------------------------- John window ------------------------*/}
-          <div className="chat-window">
-
-
-            {/*--------------------------- message box ------------------------*/}
-
-            {/*--------------------------- input's john ------------------------*/}
-            <div>
-              <form className="input-group">
-                <input type="text" className="form-control" placeholder="Enter your message..." />
-                <div className="input-group-append">
-                  <button className="btn submit-button" disabled={this.isDisabled()}>
-                    SEND
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-
         </div>
       </div>
     );
